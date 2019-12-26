@@ -2,21 +2,33 @@
 
 namespace App\Models\Tenant;
 
-use App\Models\Tenant\Catalogs\DocumentType;
+use App\Models\Tenant\User;
+use App\Models\Tenant\Establishment;
 
 class EgresoCaja extends ModelTenant
 {
     protected $table = 'egreso_caja';
+    protected $with = ['user'];
     
     protected $fillable = [
-        'usuario_id',
+        'user_id',
+        'establishment_id',
         'monto',
-        'observacion',       
+        'observacion', 
+        'date_of_issue',      
+    ];
+
+    protected $casts = [
+        'date_of_issue' => 'date',
     ];
     
-    public function usuario() {
+        
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
     
-    
+    public function establishment() {
+        return $this->belongsTo(Establishment::class);
+    }
 }

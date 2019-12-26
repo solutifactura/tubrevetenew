@@ -19,7 +19,7 @@
                     <tbody>
                     <tr v-for="(row, index) in records">
                         <td>{{ index + 1 }}</td>
-                        <td>{{ row.created_at }}</td>
+                        <td>{{ row.date_of_issue }}</td>
                         <td>{{ row.usuario }}</td>
                         <td>{{ row.monto }}</td>                    
                         <td>{{ row.observacion }}</td>

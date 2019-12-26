@@ -59,14 +59,18 @@
                 errors: {},
                 form: {},              
                 usuarios: {},
-               usuario_idx: null,
+                usuario_idx: null,
+                establishment_idx: null,
             }
         },
         async created() {
             await this.$http.get(`/${this.resource}/tables`)
                 .then(response => {                    
                     this.usuarios = response.data.user
-                    this.usuario_idx = response.data.user.id                              
+                   
+                    this.usuario_idx = response.data.user.id 
+                    this.establishment_idx = response.data.user.establishment_id 
+                    
                 })
             await this.initForm()
         },
@@ -75,9 +79,11 @@
                 this.errors = {}
                 this.form = {
                     id: null, 
-                    usuario_id: this.usuario_idx,                 
+                    user_id: this.usuario_idx,
+                    establishment_id: this.establishment_idx,                 
                     monto: null,
-                    observacion: null                                                 
+                    observacion: null,
+                    date_of_issue: moment().format('YYYY-MM-DD'),                                                 
                 }
 
            

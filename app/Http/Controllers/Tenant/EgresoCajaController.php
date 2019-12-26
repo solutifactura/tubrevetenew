@@ -6,6 +6,7 @@ use App\Http\Requests\Tenant\EgresoCajaRequest;
 use App\Http\Resources\Tenant\EgresoCajaCollection;
 use App\Http\Resources\Tenant\EgresoCajaResource;
 use App\Models\Tenant\User;
+use App\Models\Tenant\Establishment;
 use App\Models\Tenant\EgresoCaja;
 
 class EgresoCajaController extends Controller
@@ -37,9 +38,11 @@ class EgresoCajaController extends Controller
     {
         $id = $request->input('id');
         $egreso = EgresoCaja::firstOrNew(['id' => $id]);
-        $egreso->usuario_id = $request->input('usuario_id');
+        $egreso->user_id = $request->input('user_id');
+        $egreso->establishment_id = $request->input('establishment_id');
         $egreso->monto = $request->input('monto');
         $egreso->observacion = $request->input('observacion');
+        $egreso->date_of_issue = $request->input('date_of_issue');
         
         $egreso->save();
 

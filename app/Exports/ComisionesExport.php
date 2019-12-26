@@ -17,6 +17,12 @@ class ComisionesExport implements  FromView, ShouldAutoSize
         
         return $this;
     }
+
+    public function sales($sales) {
+        $this->sales = $sales;
+        
+        return $this;
+    }
     
     public function company($company) {
         $this->company = $company;
@@ -33,6 +39,7 @@ class ComisionesExport implements  FromView, ShouldAutoSize
     public function view(): View {
         return view('tenant.reports.comisiones.report_excel', [
             'records'=> $this->records,
+            'sales'=> $this->sales,
             'company' => $this->company,
             'establishment'=>$this->establishment
         ]);

@@ -180,6 +180,10 @@ class ReportComisionesController extends Controller
                     ->whereBetween('date_of_issue', [$d, $a])
                     ->latest()
                     ->get();
+                
+                    $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                    
+                    ->whereBetween('date_of_issue', [$d, $a])
+                    ->latest();
             }
             else {
                 $records = Document::with([ 'state_type', 'person'])
@@ -188,6 +192,12 @@ class ReportComisionesController extends Controller
                     ->latest()
                     ->where('vendedor_id', $td)
                     ->get();
+
+
+                    $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                    
+                    ->whereBetween('date_of_issue', [$d, $a])
+                    ->latest()
+                    ->where('user_id', $td);
             }
         }
         else {
@@ -195,21 +205,28 @@ class ReportComisionesController extends Controller
                 $records = Document::with([ 'state_type', 'person'])
                     ->latest()
                     ->get();
+                    $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                   
+                    ->latest();
             }
             else {
                 $records = Document::with([ 'state_type', 'person'])
                     ->where('vendedor_id', $td)
                     ->latest()
                     ->get();
+                    $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                   
+                    ->latest()
+                    ->where('user_id', $td);
             }
         }
 
         if(!is_null($establishment_id)){
             $records = $records->where('establishment_id', $establishment_id);
+            $sales = $sales->where('establishment_id', $establishment_id);
         }
         
         return (new ComisionesExport)
                 ->records($records)
+                ->sales($sales)
                 ->company($company)
                 ->establishment($establishment)
                 ->download('ReporteDoc'.Carbon::now().'.xlsx');

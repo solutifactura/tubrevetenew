@@ -55,11 +55,8 @@ class ReportCajaController extends Controller
                 $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                    
                     ->whereBetween('date_of_issue', [$d, $a])
                     ->latest();
-
-                $from = date('Y-m-d H:i:s', strtotime($d));
-                $to = date('Y-m-d H:i:s', strtotime($a));
-                   
-                $egresos = EgresoCaja::whereBetween('created_at', [$from ,$to])
+             
+                $egresos = EgresoCaja::whereBetween('date_of_issue', [$d, $a])
                     ->latest();
 
                 
@@ -76,13 +73,9 @@ class ReportCajaController extends Controller
                     ->latest()
                     ->where('user_id', $td);
 
-
-                    $from = date('Y-m-d H:i:s', strtotime($d));
-                    $to = date('Y-m-d H:i:s', strtotime($a));
-
-                    $egresos = EgresoCaja::whereBetween('created_at', [$from ,$to])
+                    $egresos = EgresoCaja::whereBetween('date_of_issue', [$d, $a])
                     ->latest()
-                    ->where('usuario_id', $td);
+                    ->where('user_id', $td);
 
                    
             }
@@ -106,7 +99,7 @@ class ReportCajaController extends Controller
                     ->where('user_id', $td);
 
                 $egresos = EgresoCaja::latest()
-                    ->where('usuario_id', $td);
+                    ->where('user_id', $td);
 
                     
             }
@@ -115,8 +108,8 @@ class ReportCajaController extends Controller
         if(!is_null($establishment_id)){
             $reports = $reports->where('establishment_id', $establishment_id);
             $sales = $sales->where('establishment_id', $establishment_id);
-            $egresos = $egresos;
-     
+            $egresos = $egresos->where('establishment_id', $establishment_id);
+                 
         }
 
         $reports = $reports->paginate(config('tenant.items_per_page'));
@@ -146,10 +139,8 @@ class ReportCajaController extends Controller
                     $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                    
                     ->whereBetween('date_of_issue', [$d, $a])
                     ->latest();
-                    $from = date('Y-m-d H:i:s', strtotime($d));
-                    $to = date('Y-m-d H:i:s', strtotime($a));
-                       
-                    $egresos = EgresoCaja::whereBetween('created_at', [$from ,$to])
+                                       
+                    $egresos = EgresoCaja::whereBetween('date_of_issue', [$d, $a])
                         ->latest();
             }
             else {
@@ -163,13 +154,10 @@ class ReportCajaController extends Controller
                     ->whereBetween('date_of_issue', [$d, $a])
                     ->latest()
                     ->where('user_id', $td);
-
-                    $from = date('Y-m-d H:i:s', strtotime($d));
-                    $to = date('Y-m-d H:i:s', strtotime($a));
-
-                    $egresos = EgresoCaja::whereBetween('created_at', [$from ,$to])
+                  
+                    $egresos = EgresoCaja::whereBetween('date_of_issue', [$d, $a])
                     ->latest()
-                    ->where('usuario_id', $td);
+                    ->where('user_id', $td);
             }
         }
         else {
@@ -192,19 +180,21 @@ class ReportCajaController extends Controller
                     ->where('user_id', $td);
 
                     $egresos = EgresoCaja::latest()
-                    ->where('usuario_id', $td);
+                    ->where('user_id', $td);
             }
         }
 
         if(!is_null($establishment_id)){
             $reports = $reports->where('establishment_id', $establishment_id);
             $sales = $sales->where('establishment_id', $establishment_id);
-            $egresos = $egresos;
+            $egresos = $egresos->where('establishment_id', $establishment_id);
+            
         }
 
         set_time_limit(0); 
+      
 
-        $pdf = PDF::loadView('tenant.reports.caja.report_pdf', compact("reports", "sales",  "egresos", "company", "establishment"));
+        $pdf = PDF::loadView('tenant.reports.caja.report_pdf', compact("reports","sales","egresos","company", "establishment"));
         $filename = 'Reporte_Documentos'.date('YmdHis');
         
         return $pdf->download($filename.'.pdf');
@@ -226,8 +216,12 @@ class ReportCajaController extends Controller
                     ->whereBetween('date_of_issue', [$d, $a])
                     ->latest()
                     ->get();
-                    $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                    
+
+                $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                    
                     ->whereBetween('date_of_issue', [$d, $a])
+                    ->latest();
+
+                $egresos = EgresoCaja::whereBetween('date_of_issue', [$d, $a])
                     ->latest();
             }
             else {
@@ -237,8 +231,13 @@ class ReportCajaController extends Controller
                     ->latest()
                     ->where('user_id', $td)
                     ->get();
-                    $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                    
+
+                $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                    
                     ->whereBetween('date_of_issue', [$d, $a])
+                    ->latest()
+                    ->where('user_id', $td);
+
+                $egresos = EgresoCaja::whereBetween('date_of_issue', [$d, $a])
                     ->latest()
                     ->where('user_id', $td);
             }
@@ -248,16 +247,22 @@ class ReportCajaController extends Controller
                 $records = Document::with([ 'state_type', 'person'])
                     ->latest()
                     ->get();
-                    $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                   
+
+                $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                   
                     ->latest();
+                
+                    $egresos = EgresoCaja::latest();
             }
             else {
                 $records = Document::with([ 'state_type', 'person'])
                     ->where('user_id', $td)
                     ->latest()
                     ->get();
-            $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                   
+                $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                   
                     ->latest()
+                    ->where('user_id', $td);
+
+                $egresos = EgresoCaja::latest()
                     ->where('user_id', $td);
             }
         }
@@ -265,11 +270,13 @@ class ReportCajaController extends Controller
         if(!is_null($establishment_id)){
             $records = $records->where('establishment_id', $establishment_id);
             $sales = $sales->where('establishment_id', $establishment_id);
+            $egresos = $egresos->where('establishment_id', $establishment_id);
         }
         
         return (new CajaExport)
                 ->records($records)
                 ->sales($sales)
+                ->egresos($egresos)
                 ->company($company)
                 ->establishment($establishment)
                 ->download('ReporteDoc'.Carbon::now().'.xlsx');

@@ -19,8 +19,10 @@ class EgresoCajaCollection extends ResourceCollection
                 'id' => $row->id,                
                 'monto' => $row->monto,
                 'observacion' => $row->observacion,
-                'usuario' => optional($row->usuario)->name,
-                'created_at' => $row->created_at->format('d-m-Y'),
+                'usuario' => optional($row->user)->name,
+                'establishment_description' => optional($row->establishment)->description,
+                'created_at' => $row->created_at->format('Y-m-d H:i:s'),
+                'date_of_issue' => $row->date_of_issue->format('Y-m-d'),
             ];
         });
     }

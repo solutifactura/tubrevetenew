@@ -15,15 +15,21 @@ class EgresoCajaRequest extends FormRequest
     public function rules()
     {
         return [
-            'usuario_id' => [
+            'user_id' => [
                 'required'
+            ],
+            'establishment_id' => [
+                'required',
             ],
             'monto' => [
                 'required'
             ],
             'observacion' => [
                 'required'
-            ]
+            ],
+            'date_of_issue' => [
+                'required',
+            ],
             
         ];
     }

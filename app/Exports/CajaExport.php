@@ -12,14 +12,21 @@ class CajaExport implements  FromView, ShouldAutoSize
 {
     use Exportable;
     
+    
+    public function records($records) {
+        $this->records = $records;
+        
+        return $this;
+    }
+
     public function sales($sales) {
         $this->sales = $sales;
         
         return $this;
     }
 
-    public function records($records) {
-        $this->records = $records;
+    public function egresos($egresos) {
+        $this->egresos = $egresos;
         
         return $this;
     }
@@ -37,9 +44,10 @@ class CajaExport implements  FromView, ShouldAutoSize
     }
     
     public function view(): View {
-        return view('tenant.reports.caja.report_excel', [
-            'sales'=> $this->sales,
+        return view('tenant.reports.caja.report_excel', [            
             'records'=> $this->records,
+            'sales'=> $this->sales,
+            'egresos'=> $this->egresos,
             'company' => $this->company,
             'establishment'=>$this->establishment
         ]);

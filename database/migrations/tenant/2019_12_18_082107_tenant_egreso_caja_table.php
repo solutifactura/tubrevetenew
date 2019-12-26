@@ -15,12 +15,15 @@ class TenantEgresoCajaTable extends Migration
     {
         Schema::create('egreso_caja', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('usuario_id');
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('establishment_id');
             $table->double('monto');         
-            $table->string('observacion');                     
+            $table->string('observacion');  
+            $table->date('date_of_issue');                   
             $table->timestamps();
 
-            $table->foreign('usuario_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('establishment_id')->references('id')->on('establishments');
 
         });
     }

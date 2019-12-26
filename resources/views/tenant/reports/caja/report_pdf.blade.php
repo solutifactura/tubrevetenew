@@ -101,6 +101,9 @@
                                 $acum_td_usd=0;
                                 $acum_tc_usd=0;
                                 $acum_trans_usd=0;
+
+                                $acum_total_egreso = 0;
+                                $total_real = 0;
                     
                     @endphp
                     <table class="">
@@ -356,6 +359,26 @@
 
 
                                     @endforeach
+
+                                    @foreach($egresos as $key => $value)
+
+                                    <tr>
+                                    <td class="celda">{{$loop->iteration}}</td>  
+                               
+                                    <td class="celda">{{$value->monto}}</td>
+                                  
+                                </tr>
+                                    
+                                    @php
+                                       $acum_total_egreso += $value->monto;
+
+                                    @endphp
+                                    @endforeach
+
+                                    @php
+                                       $total_real = $acum_total - $acum_total_egreso;
+
+                                    @endphp
                             <tr>
                                 <td class="celda" colspan="5"></td>
                                 <td class="celda" >Totales PEN</td>
@@ -380,6 +403,31 @@
                                         <td class="celda" align="center">{{$acum_trans_usd}}</td>
                              
                             </tr>
+                            <tr>
+                                        <td class="celda" colspan="5"></td>
+                                        <td class="celda">Total Egreso de Caja</td>
+                                        <td class="celda"></td>
+                                        <td class="celda"></td>
+                                        <td class="celda">{{$acum_total_egreso}}</td>
+                                        <td class="celda" align="center"></td>
+                                        <td class="celda" align="center"></td>
+                                        <td class="celda" align="center"></td>
+                                        <td class="celda" align="center"></td>
+                                        
+                                    </tr>
+
+                                    <tr>
+                                        <td class="celda" colspan="5"></td>
+                                        <td class="celda" >Total</td>
+                                        <td class="celda"></td>
+                                        <td class="celda"></td>
+                                        <td class="celda">{{$total_real}}</td>
+                                        <td class="celda" align="center"></td>
+                                        <td class="celda" align="center"></td>
+                                        <td class="celda" align="center"></td>
+                                        <td class="celda" align="center"></td>
+                                        
+                                    </tr>
                         </tbody>
                     </table>
                 </div>
@@ -389,5 +437,16 @@
                 <p>No se encontraron registros.</p>
             </div>
         @endif
+
+
+        @if(!empty($egresos))
+
+        <div class="callout callout-info">
+                <p>si se encontraron registros.</p>
+            </div>
+
+        @endif
+
+
     </body>
 </html>

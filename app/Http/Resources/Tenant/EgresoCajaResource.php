@@ -17,9 +17,11 @@ class EgresoCajaResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'usuario_id' => $this->usuario_id,
+            'user_id' => $this->user_id,
+            'establishment_id' => $this->establishment_id,
             'monto' => $this->monto,
             'observacion' => $this->observacion,
+            'date_of_issue' => $this->date_of_issue->format('Y-m-d'),
 
         ];
     }
