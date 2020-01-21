@@ -54,6 +54,8 @@
                         $acum_total_igv_usd=0;
                         $acum_total_usd=0;
                         $acum_total_comision_usd=0;
+
+                        $acum_item=0;
                     @endphp
                     <table class="">
                         <thead>
@@ -99,6 +101,39 @@
                                     $acum_total_usd += $value->total;
                                     $acum_total_comision_usd += $value->total_comisiones;
                                 }
+                                $acum_item=$loop->iteration + 1;
+                            @endphp
+                            @endforeach
+
+                            @foreach($sales as $key => $value)
+                                <tr>
+                                    <td class="celda">{{$acum_item}}</td>                                    
+                                    <td class="celda">{{$value->identifier}}</td>
+                                    <td class="celda">{{$value->date_of_issue->format('Y-m-d')}}</td>
+                                    <td class="celda">{{$value->customer->name}}</td>
+                                    <td class="celda">{{$value->customer->number}}</td>
+                                    <td class="celda">{{$value->vendedor->name}}</td>
+                                    <td class="celda">{{$value->currency_type_id}}</td>
+                                    <td class="celda">{{$value->total_taxed}}</td>
+                                    <td class="celda">{{$value->total_igv}}</td>
+                                    <td class="celda">{{$value->total}}</td>
+                                    <td class="celda">{{$value->total_comisiones}}</td>
+                                </tr>
+                            @php
+                               
+                                if($value->currency_type_id == 'PEN'){
+                                    $acum_total_taxed += $value->total_taxed;
+                                    $acum_total_igv += $value->total_igv;
+                                    $acum_total += $value->total;
+                                    $acum_total_comision += $value->total_comisiones;
+
+                                }else if($value->currency_type_id == 'USD'){
+                                    $acum_total_taxed_usd += $value->total_taxed;
+                                    $acum_total_igv_usd += $value->total_igv;
+                                    $acum_total_usd += $value->total;
+                                    $acum_total_comision_usd += $value->total_comisiones;
+                                }
+                                $acum_item= $acum_item + $loop->iteration;
                             @endphp
                             @endforeach
                             <tr>

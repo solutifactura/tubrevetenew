@@ -50,6 +50,8 @@
                                 $acum_total_igv_usd=0;
                                 $acum_total_usd=0;
                                 $acum_total_comision_usd=0;
+
+                                $acum_item=0;
                             @endphp
                             <table width="100%" class="table table-striped table-responsive-xl table-bordered table-hover">
                                 <thead class="">
@@ -96,13 +98,13 @@
                                             $acum_total_usd += $value->total;
                                             $acum_total_comision_usd += $value->total_comisiones;
                                         }
-
+                                        $acum_item=$loop->iteration + 1;
                                     @endphp
                                     @endforeach
 
                                     @foreach($sales as $key => $value)
                                     <tr>
-                                        <td>{{$loop->iteration}}</td>                                        
+                                        <td>{{$acum_item}}</td>                                        
                                         <td>{{$value->identifier}}</td>
                                         <td>{{$value->date_of_issue->format('Y-m-d')}}</td>
                                         <td>{{$value->person->name}}</td>
@@ -127,7 +129,7 @@
                                             $acum_total_usd += $value->total;
                                             $acum_total_comision_usd += $value->total_comisiones;
                                         }
-
+                                        $acum_item= $acum_item + $loop->iteration;
                                     @endphp
                                     @endforeach
 

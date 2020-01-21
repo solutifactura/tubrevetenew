@@ -54,35 +54,46 @@ class ReportComisionesController extends Controller
                     ->where('state_type_id', '<>', 13)
                     ->whereBetween('date_of_issue', [$d, $a])
                     ->latest();
-                    $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                    
+                
+                
+                $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                    
                     ->whereBetween('date_of_issue', [$d, $a])
                     ->latest();
             }
             else {
                 $reports = Document::with([ 'state_type', 'person'])
                     ->where('state_type_id', '<>', 13)
+                    ->where('vendedor_id', $td)
                     ->whereBetween('date_of_issue', [$d, $a])
-                    ->latest()
-                    ->where('vendedor_id', $td);
-                    $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                    
+                    ->latest();
+                    
+
+
+
+                $sales = SaleNote::with([ 'state_type', 'person', 'payments'])    
+                    ->where('user_id', $td)
                     ->whereBetween('date_of_issue', [$d, $a])
-                    ->latest()
-                    ->where('user_id', $td);
+                    ->latest();
+                    
             }
         }
         else {
             if (is_null($td)) {
                 $reports = Document::with([ 'state_type', 'person'])
                     ->latest();
-                    $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                   
+
+                $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                   
                     ->latest();
+
             } else {
                 $reports = Document::with([ 'state_type', 'person'])
-                    ->latest()
-                    ->where('vendedor_id', $td);
-                    $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                   
-                    ->latest()
-                    ->where('user_id', $td);
+                    ->where('vendedor_id', $td)
+                    ->latest();
+                    
+                    $sales = SaleNote::with([ 'state_type', 'person', 'payments'])
+                    ->where('user_id', $td)                
+                    ->latest();
+                    
             }
         }
 
@@ -114,22 +125,26 @@ class ReportComisionesController extends Controller
                     ->whereBetween('date_of_issue', [$d, $a])
                     ->latest()
                     ->get();
-                    $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                    
+                
+                $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                    
                     ->whereBetween('date_of_issue', [$d, $a])
-                    ->latest();
+                    ->latest()
+                    ->get();
             }
             else {
                 $reports = Document::with([ 'state_type', 'person'])
                     ->where('state_type_id', '<>', 13)
-                    ->whereBetween('date_of_issue', [$d, $a])
-                    ->latest()
                     ->where('vendedor_id', $td)
-                    ->get();
-
-                    $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                    
                     ->whereBetween('date_of_issue', [$d, $a])
                     ->latest()
-                    ->where('user_id', $td);
+                    ->get();
+               
+                $sales = SaleNote::with([ 'state_type', 'person', 'payments'])     
+                    ->where('user_id', $td)              
+                    ->whereBetween('date_of_issue', [$d, $a])
+                    ->latest()
+                    ->get();
+                    
             }
         }
         else {
@@ -137,17 +152,23 @@ class ReportComisionesController extends Controller
                 $reports = Document::with([ 'state_type', 'person'])
                     ->latest()
                     ->get();
-                    $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                   
-                    ->latest();
+                
+                $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                   
+                    ->latest()
+                    ->get();
             }
             else {
                 $reports = Document::with([ 'state_type', 'person'])
+                ->where('vendedor_id', $td)
+                ->latest()
+                ->get();
+                   
+                
+                $sales = SaleNote::with([ 'state_type', 'person', 'payments'])       
+                    ->where('user_id', $td)           
                     ->latest()
-                    ->where('vendedor_id', $td)
                     ->get();
-                    $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                   
-                    ->latest()
-                    ->where('user_id', $td);
+                    
             }
         }
 
@@ -181,23 +202,26 @@ class ReportComisionesController extends Controller
                     ->latest()
                     ->get();
                 
-                    $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                    
+                $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                    
                     ->whereBetween('date_of_issue', [$d, $a])
-                    ->latest();
+                    ->latest()
+                    ->get();
             }
             else {
                 $records = Document::with([ 'state_type', 'person'])
                     ->where('state_type_id', '<>', 13)
-                    ->whereBetween('date_of_issue', [$d, $a])
-                    ->latest()
                     ->where('vendedor_id', $td)
-                    ->get();
-
-
-                    $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                    
                     ->whereBetween('date_of_issue', [$d, $a])
                     ->latest()
-                    ->where('user_id', $td);
+                    ->get();
+                                     
+                    
+                $sales = SaleNote::with([ 'state_type', 'person', 'payments'])  
+                    ->where('user_id', $td)               
+                    ->whereBetween('date_of_issue', [$d, $a])
+                    ->latest()
+                    ->get();
+                    
             }
         }
         else {
@@ -205,17 +229,22 @@ class ReportComisionesController extends Controller
                 $records = Document::with([ 'state_type', 'person'])
                     ->latest()
                     ->get();
-                    $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                   
-                    ->latest();
+
+                $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                   
+                    ->latest()
+                    ->get();
             }
             else {
                 $records = Document::with([ 'state_type', 'person'])
                     ->where('vendedor_id', $td)
                     ->latest()
                     ->get();
-                    $sales = SaleNote::with([ 'state_type', 'person', 'payments'])                   
+
+                $sales = SaleNote::with([ 'state_type', 'person', 'payments'])  
+                    ->where('user_id', $td)               
                     ->latest()
-                    ->where('user_id', $td);
+                    ->get();
+                    
             }
         }
 

@@ -79,105 +79,99 @@
             <div class="">
                 <div class=" ">
                     @php
-                    $acum_total_taxed=0;
-                                $acum_total_igv=0;
-                                $acum_total=0;
-                                $acum_total_comision=0;
-                                $acum_efectivo=0;
-                                $acum_td=0;
-                                $acum_tc=0;
-                                $acum_trans=0;
+                        $acum_total_taxed=0;
+                        $acum_total_igv=0;
+                        $acum_total=0;
+                        $acum_total_comision=0;
+                        $acum_efectivo=0;
+                        $acum_td=0;
+                        $acum_tc=0;
+                        $acum_trans=0;
 
-                                $efectivo=0;
-                                $td=0;
-                                $tc=0;
-                                $trans=0;
+                        $efectivo=0;
+                        $td=0;
+                        $tc=0;
+                        $trans=0;
 
-                                $acum_total_taxed_usd=0;
-                                $acum_total_igv_usd=0;
-                                $acum_total_usd=0;
-                                $acum_total_comision_usd=0;
-                                $acum_efectivo_usd=0;
-                                $acum_td_usd=0;
-                                $acum_tc_usd=0;
-                                $acum_trans_usd=0;
+                        $acum_total_taxed_usd=0;
+                        $acum_total_igv_usd=0;
+                        $acum_total_usd=0;
+                        $acum_total_comision_usd=0;
+                        $acum_efectivo_usd=0;
+                        $acum_td_usd=0;
+                        $acum_tc_usd=0;
+                        $acum_trans_usd=0;
 
-                                $acum_total_egreso = 0;
-                                $total_real = 0;
-                    
+                        $acum_total_egreso = 0;
+                        $total_real = 0;  
+
+                        $acum_item=0;                 
                     @endphp
+
                     <table class="">
                         <thead>
                             <tr>
-                            <th class="">#</th>                                       
-                                        <th class="">Comprobante</th>
-                                        <th class="">Fecha emisión</th>
-                                        <th class="">Cliente</th>
-                                        <th class="">RUC</th>
-                                        
-                                        <th class="">Moneda</th>
-                                        <th class="">Total Gravado</th>
-                                        <th class="">Total IGV</th>
-                                        <th class="">Total</th>
-                                        <th class="">Efectivo</th>
-                                        <th class="">Tarjeta de Debito</th>
-                                        <th class="">Tarjeta de Credito</th>
-                                        <th class="">Transferencia</th>
+                                <th class="">#</th>                                       
+                                <th class="">Comprobante</th>
+                                <th class="">Fecha emisión</th>
+                                <th class="">Cliente</th>
+                                <th class="">RUC</th>                                        
+                                <th class="">Moneda</th>
+                                <th class="">Total Gravado</th>
+                                <th class="">Total IGV</th>
+                                <th class="">Total</th>
+                                <th class="">Efectivo</th>
+                                <th class="">Tarjeta de Debito</th>
+                                <th class="">Tarjeta de Credito</th>
+                                <th class="">Transferencia</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($reports as $key => $value)
                                 <tr>
-                                    <td class="celda">{{$loop->iteration}}</td>  
-                                                                 
+                                    <td class="celda">{{$loop->iteration}}</td>
                                     <td class="celda">{{$value->series}}-{{$value->number}}</td>
                                     <td class="celda">{{$value->date_of_issue->format('Y-m-d')}}</td>
                                     <td class="celda">{{$value->customer->name}}</td>
-                                    <td class="celda">{{$value->customer->number}}</td>
-                              
+                                    <td class="celda">{{$value->customer->number}}</td>                              
                                     <td class="celda">{{$value->currency_type_id}}</td>
                                     <td class="celda">{{$value->total_taxed}}</td>
                                     <td class="celda">{{$value->total_igv}}</td>
-                                    <td class="celda">{{$value->total}}</td>
-                                  
+                                    <td class="celda">{{$value->total}}</td>                                  
                                 </tr>
 
                                 @foreach($value->payments as $item_second => $value_second)
-                                        @php
-
+                                    @php
 
                                         if($value_second->payment_method_type->description == 'Efectivo'){                                                
                                             $efectivo=$value_second->payment;                                               
-                                            }else{                                                
+                                        }else{                                                
                                             $efectivo=0;   
-                                                if($value_second->payment_method_type->description == 'Tarjeta de débito'){                                                
-                                                    $td=$value_second->payment;                                               
-                                                }else{                                                
+                                            if($value_second->payment_method_type->description == 'Tarjeta de débito'){                                                
+                                                $td=$value_second->payment;                                               
+                                            }else{                                                
                                                 $td=0;  
-                                                    if($value_second->payment_method_type->description == 'Tarjeta de crédito'){                                                
+                                                if($value_second->payment_method_type->description == 'Tarjeta de crédito'){                                                
                                                     $tc=$value_second->payment;                                               
                                                 }else{                                                
-                                                $tc=0; 
-                                                        if($value_second->payment_method_type->description == 'Transferencia'){                                                
+                                                    $tc=0; 
+                                                    if($value_second->payment_method_type->description == 'Transferencia'){                                                
                                                         $trans=$value_second->payment;                                               
                                                     }else{                                                
-                                                    $trans=0;                                               
+                                                        $trans=0;                                               
                                                     }                                              
                                                 }                                             
-                                                }                                            
-                                            }
-
-                                            
-                                                                       
-                                         @endphp  
-                                         <tr>
-                                         <td colspan="9"></td>
-                                         <td  align="center"class="celda">{{$efectivo}}</td>
-                                         <td  align="center" class="celda">{{$td}}</td>
-                                         <td  align="center" class="celda">{{$tc}}</td>
-                                         <td  align="center" class="celda">{{$trans}}</td>
-                                         </tr>
-
+                                            }                                            
+                                        }
+                                
+                                    @endphp  
+                                    <tr>
+                                        <td colspan="9"></td>
+                                        <td  align="center"class="celda">{{$efectivo}}</td>
+                                        <td  align="center" class="celda">{{$td}}</td>
+                                        <td  align="center" class="celda">{{$tc}}</td>
+                                        <td  align="center" class="celda">{{$trans}}</td>
+                                    </tr>
 
                                     @php
                                         if($value->currency_type_id == 'PEN'){
@@ -185,200 +179,169 @@
                                             if($value_second->payment_method_type->description == 'Efectivo'){                                                
                                                 $acum_efectivo += $value_second->payment;                                                
                                             }
-
                                             if($value_second->payment_method_type->description == 'Tarjeta de débito'){                                                
                                                 $acum_td += $value_second->payment;                                               
                                             }
-
                                             if($value_second->payment_method_type->description == 'Tarjeta de crédito'){                                                
                                                 $acum_tc += $value_second->payment;                                                
                                             }
-
                                             if($value_second->payment_method_type->description == 'Transferencia'){                                                
                                                 $acum_trans += $value_second->payment;                                                
-                                            }
-                                            
-                                                                                     
+                                            }                                    
 
                                         }else if($value->currency_type_id == 'USD'){
                                             
                                             if($value_second->payment_method_type->description == 'Efectivo'){                                                
                                                 $acum_efectivo_usd += $value_second->payment;                                                
                                             }
-
                                             if($value_second->payment_method_type->description == 'Tarjeta de débito'){                                                
                                                 $acum_td_usd += $value_second->payment;                                               
                                             }
-
                                             if($value_second->payment_method_type->description == 'Tarjeta de crédito'){                                                
                                                 $acum_tc_usd += $value_second->payment;                                                
                                             }
-
                                             if($value_second->payment_method_type->description == 'Transferencia'){                                                
                                                 $acum_trans_usd += $value_second->payment;                                                
-                                            }
-                                            
+                                            }                                            
                                         }
-                                    @endphp  
+                                    @endphp                                         
                                        
-                                       
-                                    @endforeach
-                                    </tr>
+                                @endforeach
+                                    
 
-                            @php
+                                @php
                                
-                                if($value->currency_type_id == 'PEN'){
-                                    $acum_total_taxed += $value->total_taxed;
-                                    $acum_total_igv += $value->total_igv;
-                                    $acum_total += $value->total;
+                                    if($value->currency_type_id == 'PEN'){
+                                        $acum_total_taxed += $value->total_taxed;
+                                        $acum_total_igv += $value->total_igv;
+                                        $acum_total += $value->total;
                                   
 
-                                }else if($value->currency_type_id == 'USD'){
-                                    $acum_total_taxed_usd += $value->total_taxed;
-                                    $acum_total_igv_usd += $value->total_igv;
-                                    $acum_total_usd += $value->total;
+                                    }else if($value->currency_type_id == 'USD'){
+                                        $acum_total_taxed_usd += $value->total_taxed;
+                                        $acum_total_igv_usd += $value->total_igv;
+                                        $acum_total_usd += $value->total;
                                
-                                }
-                            @endphp                          
+                                    }
+                                    $acum_item=$loop->iteration + 1;
+                                @endphp                          
 
                             @endforeach
 
 
                             @foreach($sales as $key => $value)
-                                    <tr>
-                                    <td class="celda">{{$loop->iteration}}</td>
+                                <tr>
+                                    <td class="celda">{{$acum_item}}</td>                                        
+                                    <td class="celda">{{$value->identifier}}</td>
+                                    <td class="celda">{{$value->date_of_issue->format('Y-m-d')}}</td>
+                                    <td class="celda">{{$value->person->name}}</td>
+                                    <td class="celda">{{$value->person->number}}</td>                                       
+                                    <td class="celda">{{$value->currency_type_id}}</td>
+                                    <td class="celda">{{$value->total_taxed}}</td>
+                                    <td class="celda">{{$value->total_igv}}</td>
+                                    <td class="celda">{{$value->total}}</td>
+                                </tr>    
+                                
+                                @foreach($value->payments as $item_second => $value_second)
                                         
-                                        <td class="celda">{{$value->identifier}}</td>
-                                        <td class="celda">{{$value->date_of_issue->format('Y-m-d')}}</td>
-                                        <td class="celda">{{$value->person->name}}</td>
-                                        <td class="celda">{{$value->person->number}}</td>
-                                       
-                                        <td class="celda">{{$value->currency_type_id}}</td>
-                                        <td class="celda">{{$value->total_taxed}}</td>
-                                        <td class="celda">{{$value->total_igv}}</td>
-                                        <td class="celda">{{$value->total}}</td>
-                                        @foreach($value->payments as $item_second => $value_second)
-                                        @php
-
+                                    @php
 
                                         if($value_second->payment_method_type->description == 'Efectivo'){                                                
-                                            $efectivo=$value_second->payment;                                               
+                                                $efectivo=$value_second->payment;                                               
                                             }else{                                                
-                                            $efectivo=0;   
+                                                $efectivo=0;   
                                                 if($value_second->payment_method_type->description == 'Tarjeta de débito'){                                                
                                                     $td=$value_second->payment;                                               
                                                 }else{                                                
-                                                $td=0;  
+                                                    $td=0;  
                                                     if($value_second->payment_method_type->description == 'Tarjeta de crédito'){                                                
-                                                    $tc=$value_second->payment;                                               
-                                                }else{                                                
-                                                $tc=0; 
-                                                        if($value_second->payment_method_type->description == 'Transferencia'){                                                
-                                                        $trans=$value_second->payment;                                               
+                                                        $tc=$value_second->payment;                                               
                                                     }else{                                                
-                                                    $trans=0;                                               
-                                                    }                                              
-                                                }                                             
+                                                        $tc=0; 
+                                                        if($value_second->payment_method_type->description == 'Transferencia'){                                                
+                                                            $trans=$value_second->payment;                                               
+                                                        }else{                                                
+                                                            $trans=0;                                               
+                                                        }                                              
+                                                    }                                             
                                                 }                                            
                                             }
-
-                                            
-                                                                       
-                                         @endphp  
-                                         <tr>
-                                         <td colspan="9" class="celda"></td>
-                                         <td class="celda" align="center">{{$efectivo}}</td>
-                                         <td class="celda" align="center">{{$td}}</td>
-                                         <td class="celda" align="center">{{$tc}}</td>
-                                         <td class="celda" align="center">{{$trans}}</td>
-                                         </tr>
-
-
-                                    @php
-                                        if($value->currency_type_id == 'PEN'){
-
-                                            if($value_second->payment_method_type->description == 'Efectivo'){                                                
-                                                $acum_efectivo += $value_second->payment;                                                
-                                            }
-
-                                            if($value_second->payment_method_type->description == 'Tarjeta de débito'){                                                
-                                                $acum_td += $value_second->payment;                                               
-                                            }
-
-                                            if($value_second->payment_method_type->description == 'Tarjeta de crédito'){                                                
-                                                $acum_tc += $value_second->payment;                                                
-                                            }
-
-                                            if($value_second->payment_method_type->description == 'Transferencia'){                                                
-                                                $acum_trans += $value_second->payment;                                                
-                                            }
-                                            
-                                                                                     
-
-                                        }else if($value->currency_type_id == 'USD'){
-                                            
-                                            if($value_second->payment_method_type->description == 'Efectivo'){                                                
-                                                $acum_efectivo_usd += $value_second->payment;                                                
-                                            }
-
-                                            if($value_second->payment_method_type->description == 'Tarjeta de débito'){                                                
-                                                $acum_td_usd += $value_second->payment;                                               
-                                            }
-
-                                            if($value_second->payment_method_type->description == 'Tarjeta de crédito'){                                                
-                                                $acum_tc_usd += $value_second->payment;                                                
-                                            }
-
-                                            if($value_second->payment_method_type->description == 'Transferencia'){                                                
-                                                $acum_trans_usd += $value_second->payment;                                                
-                                            }
-                                            
-                                        }
+                                                                                                                  
                                     @endphp  
-                                       
-                                       
-                                    @endforeach
+                                        
+                                    <tr>
+                                        <td colspan="9" class="celda"></td>
+                                        <td class="celda" align="center">{{$efectivo}}</td>
+                                        <td class="celda" align="center">{{$td}}</td>
+                                        <td class="celda" align="center">{{$tc}}</td>
+                                        <td class="celda" align="center">{{$trans}}</td>
                                     </tr>
+
+
                                     @php
                                         if($value->currency_type_id == 'PEN'){
+
+                                                if($value_second->payment_method_type->description == 'Efectivo'){                                                
+                                                    $acum_efectivo += $value_second->payment;                                                
+                                                }
+                                                if($value_second->payment_method_type->description == 'Tarjeta de débito'){                                                
+                                                    $acum_td += $value_second->payment;                                               
+                                                }
+                                                if($value_second->payment_method_type->description == 'Tarjeta de crédito'){                                                
+                                                    $acum_tc += $value_second->payment;                                                
+                                                }
+                                                if($value_second->payment_method_type->description == 'Transferencia'){                                                
+                                                    $acum_trans += $value_second->payment;                                                
+                                                }                                   
+
+                                            }else if($value->currency_type_id == 'USD'){                                                
+                                                if($value_second->payment_method_type->description == 'Efectivo'){                                                
+                                                    $acum_efectivo_usd += $value_second->payment;                                                
+                                                }
+                                                if($value_second->payment_method_type->description == 'Tarjeta de débito'){                                                
+                                                    $acum_td_usd += $value_second->payment;                                               
+                                                }
+                                                if($value_second->payment_method_type->description == 'Tarjeta de crédito'){                                                
+                                                    $acum_tc_usd += $value_second->payment;                                                
+                                                }
+                                                if($value_second->payment_method_type->description == 'Transferencia'){                                                
+                                                    $acum_trans_usd += $value_second->payment;                                                
+                                                }                                                
+                                            }
+                                    @endphp                                         
+                                       
+                                @endforeach
+                                    
+                                @php
+                                    if($value->currency_type_id == 'PEN'){
                                             $acum_total_taxed += $value->total_taxed;
                                             $acum_total_igv += $value->total_igv;
-                                            $acum_total += $value->total;
-                                           
-                                           
+                                            $acum_total += $value->total;                                                                                      
 
                                         }else if($value->currency_type_id == 'USD'){
                                             $acum_total_taxed_usd += $value->total_taxed;
                                             $acum_total_igv_usd += $value->total_igv;
                                             $acum_total_usd += $value->total;
                                             
-                                        }
-                                    @endphp  
+                                    }
+                                    $acum_item= $acum_item + $loop->iteration;
+                                @endphp  
+                                
+                            @endforeach
 
+                            @foreach($egresos as $key => $value)                                  
                                     
+                                @php
+                                    $acum_total_egreso += $value->monto;
 
+                                @endphp
+                            @endforeach
 
-                                    @endforeach
+                            @php
+                                $total_real = $acum_total - $acum_total_egreso;
 
-                                    @foreach($egresos as $key => $value)
-
-                                    <tr>
-                                    <td class="celda">{{$loop->iteration}}</td>  
-                               
-                                    <td class="celda">{{$value->monto}}</td>
-                                  
-                                </tr>
-                                    
-                                    @php
-                                       $acum_total_egreso += $value->monto;
-
-                                    @endphp
-                                    @endforeach
-
-                                    @php
-                                       $total_real = $acum_total - $acum_total_egreso;
-
-                                    @endphp
+                            @endphp
+                            
                             <tr>
                                 <td class="celda" colspan="5"></td>
                                 <td class="celda" >Totales PEN</td>
@@ -439,13 +402,7 @@
         @endif
 
 
-        @if(!empty($egresos))
-
-        <div class="callout callout-info">
-                <p>si se encontraron registros.</p>
-            </div>
-
-        @endif
+        
 
 
     </body>

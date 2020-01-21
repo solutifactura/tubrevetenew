@@ -67,6 +67,7 @@
                                 $acum_total_egreso = 0;
                                 $total_real = 0;
 
+                                $acum_item=0;
                             @endphp
                             <table width="100%" class="table table-striped table-responsive-xl table-bordered table-hover">
                                 <thead class="">
@@ -199,6 +200,8 @@
                                             $acum_total_usd += $value->total;
                                             
                                         }
+
+                                        $acum_item=$loop->iteration + 1;
                                     @endphp  
 
                                     
@@ -208,7 +211,7 @@
 
                                     @foreach($sales as $key => $value)
                                     <tr>
-                                    <td>{{$loop->iteration}}</td>
+                                    <td>{{$acum_item}}</td>
                                         
                                         <td>{{$value->identifier}}</td>
                                         <td>{{$value->date_of_issue->format('Y-m-d')}}</td>
@@ -315,6 +318,8 @@
                                             $acum_total_usd += $value->total;
                                             
                                         }
+
+                                        $acum_item= $acum_item + $loop->iteration;
                                     @endphp  
 
                                     
